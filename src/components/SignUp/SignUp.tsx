@@ -2,21 +2,22 @@ import React, { useState } from "react";
 import { TextField, Button, Box, Typography, Container } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
-import { logInThunk } from "../../redux/auth/operations";
+import { registerThunk } from "../../redux/auth/operations";
 
 interface signUpProps {
   setSignUp: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SignIn: React.FC<signUpProps> = ({ setSignUp }) => {
+const SignUp: React.FC<signUpProps> = ({ setSignUp }) => {
+  const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
   const dispatch = useDispatch<AppDispatch>();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
-    dispatch(logInThunk({ email, password }));
+    dispatch(registerThunk({ username, email, password }));
   };
 
   return (
@@ -32,6 +33,23 @@ const SignIn: React.FC<signUpProps> = ({ setSignUp }) => {
           Registration
         </Typography>
         <Box component="form" onSubmit={handleSubmit} width="100%">
+          <TextField
+            label="Username"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "&.Mui-focused fieldset": {
+                  borderColor: "primary.main",
+                },
+                outline: "none",
+              },
+            }}
+          />
           <TextField
             label="Email"
             type="email"
@@ -75,16 +93,16 @@ const SignIn: React.FC<signUpProps> = ({ setSignUp }) => {
               color="primary"
               sx={{ width: "48%" }}
             >
-              Sign In
+              Sign Up
             </Button>
             <Button
               type="button"
               variant="outlined"
               color="primary"
               sx={{ width: "48%" }}
-              onClick={() => setSignUp(true)}
+              onClick={() => setSignUp(false)}
             >
-              Sign Up
+              Sign In
             </Button>
           </Box>
         </Box>
@@ -93,4 +111,4 @@ const SignIn: React.FC<signUpProps> = ({ setSignUp }) => {
   );
 };
 
-export default SignIn;
+export default SignUp;
