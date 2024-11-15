@@ -1,0 +1,20 @@
+.header {
+  display: flex;
+  align-items: center;
+  padding: 20px 25px;
+  background: lightgray;
+  border-bottom: 1px solid darkgray;
+  justify-content: space-between;
+}
+
+.logo_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.user_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}

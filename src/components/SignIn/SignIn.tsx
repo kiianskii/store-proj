@@ -26,7 +26,7 @@ const SignIn: React.FC<signUpProps> = ({ setSignUp }) => {
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
-        minHeight="100vh"
+        height="80vh"
       >
         <Typography variant="h4" component="h1" gutterBottom>
           Registration
