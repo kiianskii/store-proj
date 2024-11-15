@@ -6,6 +6,7 @@ import { selectIsLoggedIn, selectUser } from "../../redux/auth/slice";
 import { Icon } from "../../icons/Icon";
 import { AppDispatch } from "../../redux/store";
 import { logOutThunk } from "../../redux/auth/operations";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -19,12 +20,18 @@ const Header = () => {
         <p>Online shopping</p>
       </div>
       {isLoggedIn && (
-        <div className={s.user_wrapper}>
-          <p>{user.username}</p>
-          <button onClick={() => dispatch(logOutThunk())}>
-            <Icon id="sign-out" size={20} />
-          </button>
-        </div>
+        <>
+          <nav>
+            <NavLink to="/">Home</NavLink>
+            <NavLink to="/catalog">Catalog</NavLink>
+          </nav>
+          <div className={s.user_wrapper}>
+            <p>{user.username}</p>
+            <button onClick={() => dispatch(logOutThunk())}>
+              <Icon id="sign-out" size={20} />
+            </button>
+          </div>
+        </>
       )}
     </header>
   );

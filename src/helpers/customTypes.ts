@@ -36,3 +36,25 @@ export interface AuthState {
   isLoggedIn: boolean;
   isRefreshing: boolean;
 }
+
+//Products operations types
+
+export interface Product {
+  _id: string;
+  title: string;
+  description: string;
+  category: string;
+  price: number;
+  image: string;
+}
+
+// export interface ProductsData {
+//   data: Product[];
+// }
+
+//Products slice types
+
+export interface ProductsState {
+  products: Product[];
+  currentPage: number;
+}
