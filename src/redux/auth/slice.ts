@@ -16,7 +16,11 @@ const initialState: AuthState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    setLoggedIn(state, action) {
+      state.isLoggedIn = action.payload;
+    },
+  },
   selectors: {
     selectToken: (state: AuthState) => state.token,
     selectIsLoggedIn: (state: AuthState) => state.isLoggedIn,
@@ -35,6 +39,8 @@ const authSlice = createSlice({
       });
   },
 });
+
+export const { setLoggedIn } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;
 
