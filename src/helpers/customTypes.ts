@@ -48,13 +48,15 @@ export interface Product {
   image: string;
 }
 
-// export interface ProductsData {
-//   data: Product[];
-// }
+export interface ProductsData {
+  products: Product[];
+  categories: string[];
+}
 
 //Products slice types
 
 export interface ProductsState {
   products: Product[];
+  categories: string[];
   currentPage: number;
 }

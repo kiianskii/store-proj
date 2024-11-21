@@ -7,11 +7,17 @@ import s from "./Layout.module.css";
 const Layout = () => {
   return (
     <section className={s.layout}>
-      <Header />
+      <div>
+        <Header />
+      </div>
 
-      <Outlet />
+      <div className={s.outlet}>
+        <Outlet />
+      </div>
 
-      <Footer />
+      <div>
+        <Footer />
+      </div>
     </section>
   );
 };

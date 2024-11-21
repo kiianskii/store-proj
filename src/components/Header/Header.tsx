@@ -21,7 +21,7 @@ const Header = () => {
       </div>
       {isLoggedIn && (
         <>
-          <nav>
+          <nav className={s.nav_wrapper}>
             <NavLink to="/">Home</NavLink>
             <NavLink to="/catalog">Catalog</NavLink>
           </nav>

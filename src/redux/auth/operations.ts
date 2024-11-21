@@ -6,16 +6,9 @@ import {
   RegCredentials,
   RegResponse,
 } from "../../helpers/customTypes";
+import { RootState } from "../store";
 
 axios.defaults.baseURL = "http://localhost:3000/";
-
-export const setToken = (token: string) => {
-  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-};
-
-export const clearToken = () => {
-  axios.defaults.headers.common.Authorization = "";
-};
 
 export const registerThunk = createAsyncThunk(
   "auth/register",
@@ -43,7 +36,7 @@ export const logInThunk = createAsyncThunk(
         "/api/auth/login",
         credentials
       );
-      setToken(data.token);
+
       return data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.message) {
@@ -57,9 +50,22 @@ export const logInThunk = createAsyncThunk(
 export const logOutThunk = createAsyncThunk(
   "auth/logout",
   async (_, thunkApi) => {
+    const state = thunkApi.getState() as RootState;
+    const token = state.auth.token;
+
     try {
-      await axios.post("/api/auth/logout");
-      clearToken();
+      if (!token) {
+        throw new Error("Token is missing");
+      }
+      await axios.post(
+        "/api/auth/logout",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
     } catch (error) {
       if (axios.isAxiosError(error) && error.message) {
         return thunkApi.rejectWithValue(error.message);

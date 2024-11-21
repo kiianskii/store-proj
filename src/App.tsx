@@ -24,6 +24,10 @@ function App() {
     }
   }, [isLoggedIn, currentPage]);
 
+  interface PersistedAuthData {
+    accessToken: string;
+  }
+
   return (
     <Suspense fallback={<h1>Loading</h1>}>
       <Routes>

@@ -170,3 +170,17 @@ textarea {
 body {
   font-family: "Roboto", sans-serif;
 }
+
+.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #ff6b09;
+}
+
+.active {
+  color: #ff6b09;
+}

@@ -1,7 +1,14 @@
-.wrapper {
+.catalog {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 20px;
   padding: 40px 20px;
+}
+
+.btn_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 40px;
 }

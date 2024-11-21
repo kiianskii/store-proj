@@ -1,21 +1,28 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Product } from "../../helpers/customTypes";
-import { setLoggedIn } from "../auth/slice";
+import { ProductsData } from "../../helpers/customTypes";
+import { RootState } from "../store";
 
 export const getProductsThunk = createAsyncThunk(
   "products/getProducts",
   async (page: number, thunkApi) => {
+    const state = thunkApi.getState() as RootState;
+    const token = state.auth.token;
+
+    if (!token) {
+      return thunkApi.rejectWithValue("Token is missing");
+    }
+
     try {
-      const { data } = await axios.get<Product[]>(`/api/products`, {
+      const { data } = await axios.get<ProductsData>(`/api/products`, {
         params: { page },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       return data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          thunkApi.dispatch(setLoggedIn(false));
-        }
         return thunkApi.rejectWithValue(error.message);
       }
       return thunkApi.rejectWithValue("Unknown error occurred");
