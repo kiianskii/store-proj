@@ -1,12 +1,16 @@
-import React from "react";
-import s from "./Header.module.css";
-import logo from "../../icons/logo.png";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import { Link, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectIsLoggedIn, selectUser } from "../../redux/auth/slice";
-import { Icon } from "../../icons/Icon";
 import { AppDispatch } from "../../redux/store";
 import { logOutThunk } from "../../redux/auth/operations";
-import { NavLink } from "react-router-dom";
+import logo from "../../icons/logo.png";
+import { Icon } from "../../icons/Icon";
+import Box from "@mui/material/Box";
 
 const Header = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -14,26 +18,50 @@ const Header = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   return (
-    <header className={s.header}>
-      <div className={s.logo_wrapper}>
-        <img src={logo} alt="Shop logo" width={32} height={32} />
-        <p>Online shopping</p>
-      </div>
-      {isLoggedIn && (
-        <>
-          <nav className={s.nav_wrapper}>
-            <NavLink to="/">Home</NavLink>
-            <NavLink to="/catalog">Catalog</NavLink>
-          </nav>
-          <div className={s.user_wrapper}>
-            <p>{user.username}</p>
-            <button onClick={() => dispatch(logOutThunk())}>
+    <AppBar position="static" color="primary">
+      <Toolbar>
+        <Box display="flex" alignItems="center" flexGrow={1}>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="logo"
+            component={Link}
+            to="/"
+          >
+            <img src={logo} alt="Shop logo" width={32} height={32} />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ ml: 1 }}>
+            Online Shopping
+          </Typography>
+        </Box>
+
+        {isLoggedIn && (
+          <Box display="flex" alignItems="center" sx={{ gap: 2 }}>
+            <Button color="inherit" component={NavLink} to="/">
+              Home
+            </Button>
+            <Button color="inherit" component={NavLink} to="/catalog">
+              Catalog
+            </Button>
+          </Box>
+        )}
+
+        {isLoggedIn && (
+          <Box display="flex" alignItems="center" sx={{ ml: 2 }}>
+            <Typography variant="body1" sx={{ mr: 2 }}>
+              {user.username}
+            </Typography>
+            <IconButton
+              color="inherit"
+              onClick={() => dispatch(logOutThunk())}
+              aria-label="log out"
+            >
               <Icon id="sign-out" size={20} />
-            </button>
-          </div>
-        </>
-      )}
-    </header>
+            </IconButton>
+          </Box>
+        )}
+      </Toolbar>
+    </AppBar>
   );
 };
 

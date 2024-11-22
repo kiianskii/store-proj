@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../Header/Header";
 import { Outlet } from "react-router-dom";
-import Footer from "../Footer/Footer";
+// import Footer from "../Footer/Footer";
 import s from "./Layout.module.css";
 
 const Layout = () => {
@@ -15,9 +15,9 @@ const Layout = () => {
         <Outlet />
       </div>
 
-      <div>
+      {/* <div>
         <Footer />
-      </div>
+      </div> */}
     </section>
   );
 };
