@@ -4,7 +4,10 @@
   justify-content: center;
   flex-wrap: wrap;
   gap: 20px;
-  padding: 40px 20px;
+  /* padding: 40px 20px; */
+
+  height: 100%;
+  overflow: scroll;
 }
 
 .btn_wrapper {

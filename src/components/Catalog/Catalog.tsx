@@ -8,6 +8,7 @@ import {
 } from "../../redux/products/slice";
 import CardItem from "../../components/CardItem/CardItem";
 import s from "./Catalog.module.css";
+import { Grid } from "@mui/material";
 
 const Catalog = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -16,11 +17,11 @@ const Catalog = () => {
 
   return (
     <div className={s.catalog}>
-      <div className={s.catalog}>
+      <Grid container spacing={4}>
         {products.map((item) => (
           <CardItem key={item._id} product={item} />
         ))}
-      </div>
+      </Grid>
 
       <div className={s.btn_wrapper}>
         <button
