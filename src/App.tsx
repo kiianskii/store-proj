@@ -1,6 +1,6 @@
 import { Suspense, useEffect } from "react";
 import "./App.css";
-import { Route, Routes, useLocation, useParams } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import { PrivateRoute } from "./routes/PrivateRoute";
 import HomePage from "./pages/HomePage/HomePage";
@@ -21,18 +21,12 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
-    const isCatalogWithCategory = /^\/catalog\/[^/]+$/.test(location.pathname); // Перевірка, чи є щось після /catalog/
+    const isCatalogWithCategory = /^\/catalog\/[^/]+$/.test(location.pathname);
 
     if (isLoggedIn && !isCatalogWithCategory) {
       dispatch(getProductsThunk(currentPage));
     }
   }, [isLoggedIn, currentPage, location.pathname]);
-
-  // useEffect(() => {
-  //   if (isLoggedIn && !location.pathname.startsWith("/catalog/")) {
-  //     dispatch(getProductsThunk(currentPage));
-  //   }
-  // }, [isLoggedIn, currentPage, location.pathname]);
 
   return (
     <Suspense fallback={<h1>Loading</h1>}>

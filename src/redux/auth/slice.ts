@@ -1,12 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AuthState } from "../../helpers/customTypes";
 import { logInThunk, logOutThunk } from "./operations";
+import {
+  addToCartThunk,
+  clearCartThunk,
+  deleteFromCartThunk,
+} from "../products/operations";
 
 const initialState: AuthState = {
   user: {
     username: "",
     id: "",
     email: "",
+    cart: [],
   },
   token: "",
   isLoggedIn: false,
@@ -26,6 +32,7 @@ const authSlice = createSlice({
     selectIsLoggedIn: (state: AuthState) => state.isLoggedIn,
     selectIsRefreshing: (state: AuthState) => state.isRefreshing,
     selectUser: (state: AuthState) => state.user,
+    selectCart: (state: AuthState) => state.user.cart,
   },
   extraReducers: (builder) => {
     builder
@@ -36,6 +43,15 @@ const authSlice = createSlice({
       })
       .addCase(logOutThunk.fulfilled, () => {
         return initialState;
+      })
+      .addCase(addToCartThunk.fulfilled, (state, { payload }) => {
+        state.user.cart = payload.cart;
+      })
+      .addCase(deleteFromCartThunk.fulfilled, (state, { payload }) => {
+        state.user.cart = payload.cart;
+      })
+      .addCase(clearCartThunk.fulfilled, (state, { payload }) => {
+        state.user.cart = payload.cart;
       });
   },
 });

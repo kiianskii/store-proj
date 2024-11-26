@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { ProductsData } from "../../helpers/customTypes";
+import { CartResponse, ProductsData } from "../../helpers/customTypes";
 import { RootState } from "../store";
 
 export const getProductsThunk = createAsyncThunk(
@@ -41,6 +41,89 @@ export const getProdByCategoryThunk = createAsyncThunk(
     try {
       const { data } = await axios.get<ProductsData>(
         `/api/products/${category}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return thunkApi.rejectWithValue(error.message);
+      }
+      return thunkApi.rejectWithValue("Unknown error occurred");
+    }
+  }
+);
+
+export const addToCartThunk = createAsyncThunk(
+  "products/addToCart",
+  async (productId: string, thunkApi) => {
+    const state = thunkApi.getState() as RootState;
+    const token = state.auth.token;
+    if (!token) {
+      return thunkApi.rejectWithValue("Token is missing");
+    }
+    try {
+      const { data } = await axios.post<CartResponse>(
+        `/api/user/cart`,
+        { productId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return thunkApi.rejectWithValue(error.message);
+      }
+      return thunkApi.rejectWithValue("Unknown error occurred");
+    }
+  }
+);
+
+export const deleteFromCartThunk = createAsyncThunk(
+  "products/deleteFromCart",
+  async (productId: string, thunkApi) => {
+    const state = thunkApi.getState() as RootState;
+    const token = state.auth.token;
+    if (!token) {
+      return thunkApi.rejectWithValue("Token is missing");
+    }
+    try {
+      const { data } = await axios.delete<CartResponse>(
+        `/api/user/cart/${productId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return thunkApi.rejectWithValue(error.message);
+      }
+      return thunkApi.rejectWithValue("Unknown error occurred");
+    }
+  }
+);
+
+export const clearCartThunk = createAsyncThunk(
+  "products/clearCart",
+  async (_, thunkApi) => {
+    const state = thunkApi.getState() as RootState;
+    const token = state.auth.token;
+    if (!token) {
+      return thunkApi.rejectWithValue("Token is missing");
+    }
+    try {
+      const { data } = await axios.post<CartResponse>(
+        `/api/user/cart/all`,
+        {},
         {
           headers: {
             Authorization: `Bearer ${token}`,

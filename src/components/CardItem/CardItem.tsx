@@ -8,9 +8,13 @@ import {
   Box,
   Grid,
 } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store";
+import { addToCartThunk } from "../../redux/products/operations";
 
 interface ProductProps {
   product: {
+    _id: string;
     title: string;
     description: string;
     category: string;
@@ -20,6 +24,8 @@ interface ProductProps {
 }
 
 const CardItem: React.FC<ProductProps> = ({ product }) => {
+  const dispatch = useDispatch<AppDispatch>();
+
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Card
@@ -54,7 +60,13 @@ const CardItem: React.FC<ProductProps> = ({ product }) => {
           <Button variant="contained" color="primary">
             Buy Now
           </Button>
-          <Button variant="outlined" color="secondary">
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => {
+              dispatch(addToCartThunk(product._id));
+            }}
+          >
             Add to Cart
           </Button>
         </Box>
