@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ProductsState } from "../../helpers/customTypes";
-import { getProductsThunk } from "./operations";
+import { getProdByCategoryThunk, getProductsThunk } from "./operations";
 import { logOutThunk } from "../auth/operations";
 
 const initialState: ProductsState = {
@@ -25,6 +25,10 @@ const productsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getProductsThunk.fulfilled, (state, { payload }) => {
+        state.products = payload.products;
+        state.categories = payload.categories;
+      })
+      .addCase(getProdByCategoryThunk.fulfilled, (state, { payload }) => {
         state.products = payload.products;
         state.categories = payload.categories;
       })

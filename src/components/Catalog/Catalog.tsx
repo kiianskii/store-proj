@@ -9,11 +9,14 @@ import {
 import CardItem from "../../components/CardItem/CardItem";
 import s from "./Catalog.module.css";
 import { Grid } from "@mui/material";
+import { useParams } from "react-router-dom";
 
 const Catalog = () => {
   const dispatch = useDispatch<AppDispatch>();
   const currentPage = useSelector(selectCurrentPage);
   const products = useSelector(selectProducts);
+
+  const { category } = useParams();
 
   return (
     <div className={s.catalog}>
@@ -23,24 +26,26 @@ const Catalog = () => {
         ))}
       </Grid>
 
-      <div className={s.btn_wrapper}>
-        <button
-          onClick={() => {
-            if (currentPage > 1) {
-              dispatch(changeCurrentPage(currentPage - 1));
-            }
-          }}
-        >
-          Previous page
-        </button>
-        <button
-          onClick={() => {
-            dispatch(changeCurrentPage(currentPage + 1));
-          }}
-        >
-          Next Page
-        </button>
-      </div>
+      {!category && (
+        <div className={s.btn_wrapper}>
+          <button
+            onClick={() => {
+              if (currentPage > 1) {
+                dispatch(changeCurrentPage(currentPage - 1));
+              }
+            }}
+          >
+            Previous page
+          </button>
+          <button
+            onClick={() => {
+              dispatch(changeCurrentPage(currentPage + 1));
+            }}
+          >
+            Next Page
+          </button>
+        </div>
+      )}
     </div>
   );
 };

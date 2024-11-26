@@ -29,3 +29,30 @@ export const getProductsThunk = createAsyncThunk(
     }
   }
 );
+
+export const getProdByCategoryThunk = createAsyncThunk(
+  "products/prodByCategory",
+  async (category: string, thunkApi) => {
+    const state = thunkApi.getState() as RootState;
+    const token = state.auth.token;
+    if (!token) {
+      return thunkApi.rejectWithValue("Token is missing");
+    }
+    try {
+      const { data } = await axios.get<ProductsData>(
+        `/api/products/${category}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return thunkApi.rejectWithValue(error.message);
+      }
+      return thunkApi.rejectWithValue("Unknown error occurred");
+    }
+  }
+);

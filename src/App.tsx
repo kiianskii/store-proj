@@ -1,6 +1,6 @@
 import { Suspense, useEffect } from "react";
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation, useParams } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import { PrivateRoute } from "./routes/PrivateRoute";
 import HomePage from "./pages/HomePage/HomePage";
@@ -18,15 +18,21 @@ function App() {
   const dispatch = useDispatch<AppDispatch>();
   const currentPage = useSelector(selectCurrentPage);
 
+  const location = useLocation();
+
   useEffect(() => {
-    if (isLoggedIn) {
+    const isCatalogWithCategory = /^\/catalog\/[^/]+$/.test(location.pathname); // Перевірка, чи є щось після /catalog/
+
+    if (isLoggedIn && !isCatalogWithCategory) {
       dispatch(getProductsThunk(currentPage));
     }
-  }, [isLoggedIn, currentPage]);
+  }, [isLoggedIn, currentPage, location.pathname]);
 
-  interface PersistedAuthData {
-    accessToken: string;
-  }
+  // useEffect(() => {
+  //   if (isLoggedIn && !location.pathname.startsWith("/catalog/")) {
+  //     dispatch(getProductsThunk(currentPage));
+  //   }
+  // }, [isLoggedIn, currentPage, location.pathname]);
 
   return (
     <Suspense fallback={<h1>Loading</h1>}>
@@ -38,6 +44,12 @@ function App() {
           />
           <Route
             path="catalog"
+            element={
+              <PrivateRoute redirectTo="/auth" component={CatalogPage} />
+            }
+          />
+          <Route
+            path="catalog/:category"
             element={
               <PrivateRoute redirectTo="/auth" component={CatalogPage} />
             }
