@@ -12,6 +12,7 @@ import { AppDispatch } from "./redux/store";
 import { getProductsThunk } from "./redux/products/operations";
 import { selectIsLoggedIn } from "./redux/auth/slice";
 import { selectCurrentPage } from "./redux/products/slice";
+import CartPage from "./pages/CartPage/CartPage";
 
 function App() {
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -47,6 +48,10 @@ function App() {
             element={
               <PrivateRoute redirectTo="/auth" component={CatalogPage} />
             }
+          />
+          <Route
+            path="cart"
+            element={<PrivateRoute redirectTo="/auth" component={CartPage} />}
           />
           <Route
             path="auth"

@@ -60,5 +60,10 @@ export const { setLoggedIn } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;
 
-export const { selectIsLoggedIn, selectIsRefreshing, selectToken, selectUser } =
-  authSlice.selectors;
+export const {
+  selectIsLoggedIn,
+  selectCart,
+  selectIsRefreshing,
+  selectToken,
+  selectUser,
+} = authSlice.selectors;

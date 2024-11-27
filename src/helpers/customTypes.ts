@@ -19,7 +19,7 @@ export interface LogCredentials {
 
 export interface LogResponse {
   token: string;
-  user: { id: string; email: string; username: string; cart: string[] };
+  user: { id: string; email: string; username: string; cart: Product[] };
 }
 
 // Auth slice interfaces
@@ -28,7 +28,7 @@ export interface User {
   id: string;
   email: string;
   username: string;
-  cart: string[];
+  cart: Product[];
 }
 
 export interface AuthState {
@@ -65,5 +65,5 @@ export interface ProductsState {
 // Cart types
 
 export interface CartResponse {
-  cart: string[];
+  cart: Product[];
 }

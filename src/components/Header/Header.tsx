@@ -3,7 +3,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectIsLoggedIn, selectUser } from "../../redux/auth/slice";
 import { AppDispatch } from "../../redux/store";
@@ -16,6 +16,7 @@ const Header = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const user = useSelector(selectUser);
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   return (
     <AppBar position="static" color="primary">
@@ -53,10 +54,19 @@ const Header = () => {
             </Typography>
             <IconButton
               color="inherit"
+              onClick={() => {
+                navigate("/cart");
+              }}
+              aria-label="cart"
+            >
+              <Icon id="cart" size={20} className="cart_icon" />
+            </IconButton>
+            <IconButton
+              color="inherit"
               onClick={() => dispatch(logOutThunk())}
               aria-label="log out"
             >
-              <Icon id="sign-out" size={20} />
+              <Icon id="sign-out" size={20} className="sign_out_icon" />
             </IconButton>
           </Box>
         )}
