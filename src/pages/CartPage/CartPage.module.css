@@ -1,0 +1,16 @@
+.empty_title {
+  text-align: center;
+  padding: 40px 0;
+  font-weight: 700;
+  font-size: large;
+}
+
+.cart_wrapper {
+  padding: 32px 20px;
+}
+
+.btn_wrapper {
+  margin: 20px 0;
+  display: flex;
+  justify-content: end;
+}
