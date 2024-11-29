@@ -3,6 +3,7 @@ import { AuthState } from "../../helpers/customTypes";
 import { logInThunk, logOutThunk } from "./operations";
 import {
   addToCartThunk,
+  changeQuantityThunk,
   clearCartThunk,
   deleteFromCartThunk,
 } from "../products/operations";
@@ -51,6 +52,9 @@ const authSlice = createSlice({
         state.user.cart = payload.cart;
       })
       .addCase(clearCartThunk.fulfilled, (state, { payload }) => {
+        state.user.cart = payload.cart;
+      })
+      .addCase(changeQuantityThunk.fulfilled, (state, { payload }) => {
         state.user.cart = payload.cart;
       });
   },

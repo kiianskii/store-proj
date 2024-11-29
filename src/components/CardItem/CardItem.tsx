@@ -69,7 +69,7 @@ const CardItem: React.FC<ProductProps> = ({ product }) => {
             onClick={() => {
               dispatch(addToCartThunk(product._id));
             }}
-            disabled={cart.some((obj) => obj._id === product._id)}
+            disabled={cart.some((obj) => obj.productId._id === product._id)}
           >
             Add to Cart
           </Button>

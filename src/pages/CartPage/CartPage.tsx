@@ -5,6 +5,7 @@ import UserCartItem from "../../components/UserCartItem/UserCartItem";
 import s from "./CartPage.module.css";
 import { AppDispatch } from "../../redux/store";
 import { clearCartThunk } from "../../redux/products/operations";
+import { Button } from "@mui/material";
 
 const CartPage = () => {
   const cartProds = useSelector(selectCart);
@@ -22,7 +23,7 @@ const CartPage = () => {
 
       <div>
         {cartProds.map((prod) => {
-          return <UserCartItem key={prod._id} product={prod} />;
+          return <UserCartItem key={prod.productId._id} product={prod} />;
         })}
       </div>
 
@@ -30,6 +31,14 @@ const CartPage = () => {
         <h2 className={s.empty_title}>
           Your cart is empty! Add some products and come back!
         </h2>
+      )}
+
+      {cartProds.length > 0 && (
+        <div className={s.order_wrapper}>
+          <Button variant="contained" color="primary">
+            Make an order
+          </Button>
+        </div>
       )}
     </div>
   );

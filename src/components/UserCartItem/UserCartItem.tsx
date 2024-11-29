@@ -5,24 +5,32 @@ import {
   CardContent,
   Typography,
   IconButton,
+  Box,
 } from "@mui/material";
 import { Icon } from "../../icons/Icon";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
-import { deleteFromCartThunk } from "../../redux/products/operations";
+import {
+  changeQuantityThunk,
+  deleteFromCartThunk,
+} from "../../redux/products/operations";
 
 interface CartProductProps {
   product: {
-    _id: string;
-    title: string;
-    category: string;
-    price: number;
-    image: string;
+    productId: {
+      _id: string;
+      title: string;
+      category: string;
+      price: number;
+      image: string;
+    };
+    quantity: number;
   };
 }
 
 const UserCartItem: React.FC<CartProductProps> = ({ product }) => {
   const dispatch = useDispatch<AppDispatch>();
+  const { productId, quantity } = product;
 
   return (
     <Card
@@ -37,29 +45,59 @@ const UserCartItem: React.FC<CartProductProps> = ({ product }) => {
       <CardMedia
         component="img"
         sx={{ width: 100, height: 100, objectFit: "contain", marginRight: 2 }}
-        image={product.image}
-        alt={product.title}
+        image={productId.image}
+        alt={productId.title}
       />
       <CardContent sx={{ flex: "1 0 auto" }}>
         <Typography variant="h6" component="div" noWrap>
-          {product.title}
+          {productId.title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Category: {product.category}
+          Category: {productId.category}
         </Typography>
         <Typography variant="body1" sx={{ marginTop: 1 }}>
-          Price: ${product.price.toFixed(2)}
+          Price: ${productId.price.toFixed(2)}
         </Typography>
       </CardContent>
 
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <IconButton
+          disabled={quantity <= 1}
+          onClick={() => {
+            dispatch(
+              changeQuantityThunk({
+                productId: productId._id,
+                quantity: quantity - 1,
+              })
+            );
+          }}
+        >
+          <Icon id="minus" size={10} className="minus_icon" />
+        </IconButton>
+        <Typography variant="body1">{quantity}</Typography>
+        <IconButton
+          disabled={quantity > 9}
+          onClick={() => {
+            dispatch(
+              changeQuantityThunk({
+                productId: productId._id,
+                quantity: quantity + 1,
+              })
+            );
+          }}
+        >
+          <Icon id="plus" size={10} className="plus_icon" />
+        </IconButton>
+      </Box>
+
       <IconButton
         onClick={() => {
-          dispatch(deleteFromCartThunk(product._id));
+          dispatch(deleteFromCartThunk(productId._id));
         }}
         color="error"
         sx={{ marginLeft: 2 }}
       >
-        <Icon className="delete_icon" id="close" size={20} />
+        <Icon className="delete_icon" id="close" size={30} />
       </IconButton>
     </Card>
   );

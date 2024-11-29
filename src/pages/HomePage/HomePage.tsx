@@ -1,11 +1,3 @@
-// import React from "react";
-
-// const HomePage = () => {
-//   return <div>HomePage</div>;
-// };
-
-// export default HomePage;
-
 import React from "react";
 import {
   Box,
@@ -17,12 +9,19 @@ import {
   CardActions,
   Button,
 } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectProducts } from "../../redux/products/slice";
+import { AppDispatch } from "../../redux/store";
+import { selectCart } from "../../redux/auth/slice";
+import { addToCartThunk } from "../../redux/products/operations";
 
 const HomePage: React.FC = () => {
   const products = useSelector(selectProducts);
   const mockProducts = products.slice(0, 3);
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const cart = useSelector(selectCart);
 
   return (
     <Box sx={{ padding: "20px" }}>
@@ -81,7 +80,17 @@ const HomePage: React.FC = () => {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small" variant="contained" color="primary">
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  onClick={() => {
+                    dispatch(addToCartThunk(product._id));
+                  }}
+                  disabled={cart.some(
+                    (obj) => obj.productId._id === product._id
+                  )}
+                >
                   Add to Cart
                 </Button>
                 <Button size="small" variant="outlined" color="secondary">

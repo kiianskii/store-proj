@@ -8,10 +8,12 @@ const Sidebar = () => {
 
   return (
     <div className={s.sidebar}>
-      <Link to={`/catalog/`}>Show all</Link>
+      <Link to={`/catalog/`} className={s.nav_link + " " + s.main_link}>
+        All products
+      </Link>
       {categories.map((item) => {
         return (
-          <NavLink to={`/catalog/${item}`} key={item}>
+          <NavLink to={`/catalog/${item}`} key={item} className={s.nav_link}>
             {item
               .split("-")
               .map((word) => word.charAt(0).toUpperCase() + word.slice(1))

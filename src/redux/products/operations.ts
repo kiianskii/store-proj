@@ -1,6 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { CartResponse, ProductsData } from "../../helpers/customTypes";
+import {
+  CartResponse,
+  ProductsData,
+  QuantityCredentials,
+} from "../../helpers/customTypes";
 import { RootState } from "../store";
 
 export const getProductsThunk = createAsyncThunk(
@@ -124,6 +128,34 @@ export const clearCartThunk = createAsyncThunk(
       const { data } = await axios.post<CartResponse>(
         `/api/user/cart/all`,
         {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return thunkApi.rejectWithValue(error.message);
+      }
+      return thunkApi.rejectWithValue("Unknown error occurred");
+    }
+  }
+);
+
+export const changeQuantityThunk = createAsyncThunk(
+  "products/changeQuantity",
+  async (credentials: QuantityCredentials, thunkApi) => {
+    const state = thunkApi.getState() as RootState;
+    const token = state.auth.token;
+    if (!token) {
+      return thunkApi.rejectWithValue("Token is missing");
+    }
+    try {
+      const { data } = await axios.post<CartResponse>(
+        `/api/user/cart/${credentials.productId}`,
+        { quantity: credentials.quantity },
         {
           headers: {
             Authorization: `Bearer ${token}`,
