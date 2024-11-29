@@ -5,18 +5,24 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { selectIsLoggedIn, selectUser } from "../../redux/auth/slice";
+import {
+  selectCart,
+  selectIsLoggedIn,
+  selectUser,
+} from "../../redux/auth/slice";
 import { AppDispatch } from "../../redux/store";
 import { logOutThunk } from "../../redux/auth/operations";
 import logo from "../../icons/logo.png";
 import { Icon } from "../../icons/Icon";
 import Box from "@mui/material/Box";
+import s from "./Header.module.css";
 
 const Header = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const user = useSelector(selectUser);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const cart = useSelector(selectCart);
 
   return (
     <AppBar position="static" color="primary">
@@ -58,6 +64,7 @@ const Header = () => {
                 navigate("/cart");
               }}
               aria-label="cart"
+              className={cart.length > 0 ? "cart_dot" : " "}
             >
               <Icon id="cart" size={20} className="cart_icon" />
             </IconButton>

@@ -10,13 +10,13 @@ import {
   Button,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { selectProducts } from "../../redux/products/slice";
+import { selectSaleProducts } from "../../redux/products/slice";
 import { AppDispatch } from "../../redux/store";
 import { selectCart } from "../../redux/auth/slice";
 import { addToCartThunk } from "../../redux/products/operations";
 
 const HomePage: React.FC = () => {
-  const products = useSelector(selectProducts);
+  const products = useSelector(selectSaleProducts);
   const mockProducts = products.slice(0, 3);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -74,7 +74,22 @@ const HomePage: React.FC = () => {
                 <Typography
                   variant="h6"
                   component="p"
-                  sx={{ fontWeight: "bold", marginTop: "10px" }}
+                  sx={{
+                    fontWeight: "bold",
+                    marginTop: "5px",
+                    color: "red",
+                    textDecoration: "line-through",
+                  }}
+                >
+                  ${(product.price + 2).toFixed(2)}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  component="p"
+                  sx={{
+                    fontWeight: "bold",
+                    marginTop: "5px",
+                  }}
                 >
                   ${product.price.toFixed(2)}
                 </Typography>

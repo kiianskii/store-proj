@@ -52,6 +52,7 @@ export interface Product {
 export interface ProductsData {
   products: Product[];
   categories: string[];
+  sale: Product[];
 }
 
 //Products slice types
@@ -59,6 +60,7 @@ export interface ProductsData {
 export interface ProductsState {
   products: Product[];
   categories: string[];
+  sale: Product[];
   currentPage: number;
 }
 

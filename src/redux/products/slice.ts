@@ -6,6 +6,7 @@ import { logOutThunk } from "../auth/operations";
 const initialState: ProductsState = {
   products: [],
   categories: [],
+  sale: [],
   currentPage: 1,
 };
 
@@ -19,6 +20,7 @@ const productsSlice = createSlice({
   },
   selectors: {
     selectProducts: (state: ProductsState) => state.products,
+    selectSaleProducts: (state: ProductsState) => state.sale,
     selectCategories: (state: ProductsState) => state.categories,
     selectCurrentPage: (state: ProductsState) => state.currentPage,
   },
@@ -26,6 +28,7 @@ const productsSlice = createSlice({
     builder
       .addCase(getProductsThunk.fulfilled, (state, { payload }) => {
         state.products = payload.products;
+        state.sale = payload.sale;
         state.categories = payload.categories;
       })
       .addCase(getProdByCategoryThunk.fulfilled, (state, { payload }) => {
@@ -40,5 +43,9 @@ export const productsReducer = productsSlice.reducer;
 
 export const { changeCurrentPage } = productsSlice.actions;
 
-export const { selectProducts, selectCurrentPage, selectCategories } =
-  productsSlice.selectors;
+export const {
+  selectProducts,
+  selectSaleProducts,
+  selectCurrentPage,
+  selectCategories,
+} = productsSlice.selectors;
