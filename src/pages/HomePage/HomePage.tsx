@@ -16,8 +16,7 @@ import { selectCart } from "../../redux/auth/slice";
 import { addToCartThunk } from "../../redux/products/operations";
 
 const HomePage: React.FC = () => {
-  const products = useSelector(selectSaleProducts);
-  const mockProducts = products.slice(0, 3);
+  const mockProducts = useSelector(selectSaleProducts);
 
   const dispatch = useDispatch<AppDispatch>();
 
