@@ -3,6 +3,8 @@ import { TextField, Button, Box, Typography, Container } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { registerThunk } from "../../redux/auth/operations";
+import toast from "react-hot-toast";
+import { msgOptions } from "../../helpers/customTypes";
 
 interface signUpProps {
   setSignUp: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,12 +14,28 @@ const SignUp: React.FC<signUpProps> = ({ setSignUp }) => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [emailError, setEmailError] = useState<string | null>(null);
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    dispatch(registerThunk({ username, email, password }));
+    if (!validateEmail(email)) {
+      setEmailError("Please enter a valid email address.");
+      return;
+    }
+    setEmailError(null);
+
+    try {
+      await dispatch(registerThunk({ username, email, password })).unwrap();
+    } catch (error) {
+      toast("Something went wrong, try again...", msgOptions);
+    }
   };
 
   return (
@@ -58,6 +76,8 @@ const SignUp: React.FC<signUpProps> = ({ setSignUp }) => {
             margin="normal"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            error={!!emailError}
+            helperText={emailError}
             required
             sx={{
               "& .MuiOutlinedInput-root": {

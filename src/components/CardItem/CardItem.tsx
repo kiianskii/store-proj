@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { addToCartThunk } from "../../redux/products/operations";
 import { selectCart } from "../../redux/auth/slice";
+import toast from "react-hot-toast";
+import { msgOptions } from "../../helpers/customTypes";
 
 interface ProductProps {
   product: {
@@ -66,8 +68,16 @@ const CardItem: React.FC<ProductProps> = ({ product }) => {
           <Button
             variant="outlined"
             color="secondary"
-            onClick={() => {
-              dispatch(addToCartThunk(product._id));
+            onClick={async () => {
+              try {
+                await dispatch(addToCartThunk(product._id)).unwrap();
+                toast("Product added to your cart!", msgOptions);
+              } catch (error) {
+                toast(
+                  "Failed to add product to your cart. Try again!",
+                  msgOptions
+                );
+              }
             }}
             disabled={cart.some((obj) => obj.productId._id === product._id)}
           >

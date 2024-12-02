@@ -1,18 +1,23 @@
 import { Suspense, useEffect } from "react";
-import "./App.css";
 import { Route, Routes, useLocation } from "react-router-dom";
-import Layout from "./components/Layout/Layout";
-import { PrivateRoute } from "./routes/PrivateRoute";
+import { useDispatch, useSelector } from "react-redux";
+import { Toaster } from "react-hot-toast";
+
 import HomePage from "./pages/HomePage/HomePage";
 import CatalogPage from "./pages/CatalogPage/CatalogPage";
 import AuthPage from "./pages/AuthPage/AuthPage";
+import CartPage from "./pages/CartPage/CartPage";
+
+import Layout from "./components/Layout/Layout";
+import Loader from "./components/Loader/Loader";
+import { PrivateRoute } from "./routes/PrivateRoute";
 import { RestrictedRoute } from "./routes/RestrictedRoute";
-import { useDispatch, useSelector } from "react-redux";
+
 import { AppDispatch } from "./redux/store";
 import { getProductsThunk } from "./redux/products/operations";
 import { selectIsLoggedIn } from "./redux/auth/slice";
 import { selectCurrentPage } from "./redux/products/slice";
-import CartPage from "./pages/CartPage/CartPage";
+import "./App.css";
 
 function App() {
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -30,7 +35,7 @@ function App() {
   }, [isLoggedIn, currentPage, location.pathname]);
 
   return (
-    <Suspense fallback={<h1>Loading</h1>}>
+    <Suspense fallback={<Loader />}>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route
@@ -59,6 +64,7 @@ function App() {
           />
         </Route>
       </Routes>
+      <Toaster />
     </Suspense>
   );
 }

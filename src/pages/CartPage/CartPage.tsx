@@ -10,6 +10,10 @@ import { Button } from "@mui/material";
 const CartPage = () => {
   const cartProds = useSelector(selectCart);
   const dispatch = useDispatch<AppDispatch>();
+  const totalPrice = cartProds.reduce((acc, item) => {
+    const itemTotal = item.productId.price * item.quantity;
+    return acc + itemTotal;
+  }, 0);
 
   return (
     <div className={s.cart_wrapper}>
@@ -35,6 +39,8 @@ const CartPage = () => {
 
       {cartProds.length > 0 && (
         <div className={s.order_wrapper}>
+          <p>TOTAL: ${totalPrice.toFixed(2)}</p>
+
           <Button variant="contained" color="primary">
             Make an order
           </Button>

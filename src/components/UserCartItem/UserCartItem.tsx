@@ -14,6 +14,8 @@ import {
   changeQuantityThunk,
   deleteFromCartThunk,
 } from "../../redux/products/operations";
+import toast from "react-hot-toast";
+import { msgOptions } from "../../helpers/customTypes";
 
 interface CartProductProps {
   product: {
@@ -91,8 +93,16 @@ const UserCartItem: React.FC<CartProductProps> = ({ product }) => {
       </Box>
 
       <IconButton
-        onClick={() => {
-          dispatch(deleteFromCartThunk(productId._id));
+        onClick={async () => {
+          try {
+            await dispatch(deleteFromCartThunk(productId._id)).unwrap();
+            toast("Product deleted from your cart!", msgOptions);
+          } catch (error) {
+            toast(
+              "Failed to delete product from your cart. Try again!",
+              msgOptions
+            );
+          }
         }}
         color="error"
         sx={{ marginLeft: 2 }}

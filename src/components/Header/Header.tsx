@@ -15,7 +15,6 @@ import { logOutThunk } from "../../redux/auth/operations";
 import logo from "../../icons/logo.png";
 import { Icon } from "../../icons/Icon";
 import Box from "@mui/material/Box";
-import s from "./Header.module.css";
 
 const Header = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
