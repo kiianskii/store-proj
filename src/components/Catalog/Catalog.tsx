@@ -29,15 +29,18 @@ const Catalog = () => {
       {!category && (
         <div className={s.btn_wrapper}>
           <button
+            className={s.btn}
             onClick={() => {
               if (currentPage > 1) {
                 dispatch(changeCurrentPage(currentPage - 1));
               }
             }}
+            disabled={currentPage === 1}
           >
             Previous page
           </button>
           <button
+            className={s.btn}
             onClick={() => {
               dispatch(changeCurrentPage(currentPage + 1));
             }}
