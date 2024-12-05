@@ -71,7 +71,7 @@ export const addToCartThunk = createAsyncThunk(
     }
     try {
       const { data } = await axios.post<CartResponse>(
-        `/api/user/cart`,
+        `/api/cart`,
         { productId },
         {
           headers: {
@@ -99,7 +99,7 @@ export const deleteFromCartThunk = createAsyncThunk(
     }
     try {
       const { data } = await axios.delete<CartResponse>(
-        `/api/user/cart/${productId}`,
+        `/api/cart/${productId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -126,7 +126,7 @@ export const clearCartThunk = createAsyncThunk(
     }
     try {
       const { data } = await axios.post<CartResponse>(
-        `/api/user/cart/all`,
+        `/api/cart/all`,
         {},
         {
           headers: {
@@ -154,7 +154,7 @@ export const changeQuantityThunk = createAsyncThunk(
     }
     try {
       const { data } = await axios.post<CartResponse>(
-        `/api/user/cart/${credentials.productId}`,
+        `/api/cart/${credentials.productId}`,
         { quantity: credentials.quantity },
         {
           headers: {
