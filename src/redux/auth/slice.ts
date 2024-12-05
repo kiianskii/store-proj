@@ -42,7 +42,7 @@ const authSlice = createSlice({
         state.token = payload.token;
         state.isLoggedIn = true;
       })
-      .addCase(logOutThunk.fulfilled, () => {
+      .addCase(logOutThunk.pending, () => {
         return initialState;
       })
       .addCase(addToCartThunk.fulfilled, (state, { payload }) => {
