@@ -46,16 +46,16 @@ const authSlice = createSlice({
         return initialState;
       })
       .addCase(addToCartThunk.fulfilled, (state, { payload }) => {
-        state.user.cart = payload.cart;
+        state.user.cart = payload.cart.items;
       })
       .addCase(deleteFromCartThunk.fulfilled, (state, { payload }) => {
-        state.user.cart = payload.cart;
+        state.user.cart = payload.cart.items;
       })
       .addCase(clearCartThunk.fulfilled, (state, { payload }) => {
-        state.user.cart = payload.cart;
+        state.user.cart = payload.cart.items;
       })
       .addCase(changeQuantityThunk.fulfilled, (state, { payload }) => {
-        state.user.cart = payload.cart;
+        state.user.cart = payload.cart.items;
       });
   },
 });

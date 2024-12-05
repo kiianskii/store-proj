@@ -72,7 +72,7 @@ export interface CartItem {
 }
 
 export interface CartResponse {
-  cart: CartItem[];
+  cart: { items: CartItem[] };
 }
 
 export interface QuantityCredentials {
