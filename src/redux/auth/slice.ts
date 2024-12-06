@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AuthState } from "../../helpers/customTypes";
-import { logInThunk, logOutThunk } from "./operations";
+import { logInThunk, logOutThunk, refreshThunk } from "./operations";
 import {
   addToCartThunk,
   changeQuantityThunk,
@@ -44,6 +44,16 @@ const authSlice = createSlice({
       })
       .addCase(logOutThunk.pending, () => {
         return initialState;
+      })
+      .addCase(refreshThunk.fulfilled, (state, { payload }) => {
+        state.token = payload.token;
+        state.isRefreshing = false;
+      })
+      .addCase(refreshThunk.rejected, (state) => {
+        state.isRefreshing = false;
+      })
+      .addCase(refreshThunk.pending, (state) => {
+        state.isRefreshing = true;
       })
       .addCase(addToCartThunk.fulfilled, (state, { payload }) => {
         state.user.cart = payload.cart.items;

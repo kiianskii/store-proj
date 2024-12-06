@@ -3,12 +3,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   LogCredentials,
   LogResponse,
+  RefreshRes,
   RegCredentials,
   RegResponse,
 } from "../../helpers/customTypes";
 import { RootState } from "../store";
 
-axios.defaults.baseURL = "https://store-proj-back.onrender.com/";
+axios.defaults.baseURL = "http://localhost:3000/";
 
 export const registerThunk = createAsyncThunk(
   "auth/register",
@@ -66,6 +67,35 @@ export const logOutThunk = createAsyncThunk(
           },
         }
       );
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.message) {
+        return thunkApi.rejectWithValue(error.message);
+      }
+      return thunkApi.rejectWithValue("Unknown error occurred");
+    }
+  }
+);
+
+export const refreshThunk = createAsyncThunk(
+  "auth/refresh",
+  async (_, thunkApi) => {
+    const state = thunkApi.getState() as RootState;
+    const token = state.auth.token;
+
+    try {
+      if (!token) {
+        throw new Error("Token is missing");
+      }
+      const { data } = await axios.post<RefreshRes>(
+        "/api/auth/refresh",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.message) {
         return thunkApi.rejectWithValue(error.message);

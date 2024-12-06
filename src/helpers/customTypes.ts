@@ -22,6 +22,10 @@ export interface LogResponse {
   user: { id: string; email: string; username: string; cart: CartItem[] };
 }
 
+export interface RefreshRes {
+  token: string;
+}
+
 // Auth slice interfaces
 
 export interface User {
