@@ -16,13 +16,14 @@ import { RestrictedRoute } from "./routes/RestrictedRoute";
 import { AppDispatch } from "./redux/store";
 import { getProductsThunk } from "./redux/products/operations";
 import { selectIsLoggedIn } from "./redux/auth/slice";
-import { selectCurrentPage } from "./redux/products/slice";
+import { selectCurrentPage, selectSearchValue } from "./redux/products/slice";
 import "./App.css";
 
 function App() {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const dispatch = useDispatch<AppDispatch>();
   const currentPage = useSelector(selectCurrentPage);
+  const value = useSelector(selectSearchValue);
 
   const location = useLocation();
 
@@ -30,9 +31,9 @@ function App() {
     const isCatalogWithCategory = /^\/catalog\/[^/]+$/.test(location.pathname);
 
     if (isLoggedIn && !isCatalogWithCategory) {
-      dispatch(getProductsThunk(currentPage));
+      dispatch(getProductsThunk({ page: currentPage, value }));
     }
-  }, [isLoggedIn, currentPage, location.pathname]);
+  }, [isLoggedIn, currentPage, location.pathname, value]);
 
   return (
     <Suspense fallback={<Loader />}>

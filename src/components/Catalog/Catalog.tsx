@@ -10,6 +10,7 @@ import CardItem from "../../components/CardItem/CardItem";
 import s from "./Catalog.module.css";
 import { Grid } from "@mui/material";
 import { useParams } from "react-router-dom";
+import SearchBar from "../SearchBar/SearchBar";
 
 const Catalog = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -20,6 +21,8 @@ const Catalog = () => {
 
   return (
     <div className={s.catalog}>
+      <SearchBar />
+
       <Grid container spacing={4}>
         {products.map((item) => (
           <CardItem key={item._id} product={item} />

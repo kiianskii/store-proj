@@ -8,6 +8,7 @@ const initialState: ProductsState = {
   categories: [],
   sale: [],
   currentPage: 1,
+  searchValue: "",
 };
 
 const productsSlice = createSlice({
@@ -17,12 +18,16 @@ const productsSlice = createSlice({
     changeCurrentPage: (state: ProductsState, action) => {
       state.currentPage = action.payload;
     },
+    changeSearchValue: (state: ProductsState, action) => {
+      state.searchValue = action.payload;
+    },
   },
   selectors: {
     selectProducts: (state: ProductsState) => state.products,
     selectSaleProducts: (state: ProductsState) => state.sale,
     selectCategories: (state: ProductsState) => state.categories,
     selectCurrentPage: (state: ProductsState) => state.currentPage,
+    selectSearchValue: (state: ProductsState) => state.searchValue,
   },
   extraReducers: (builder) => {
     builder
@@ -34,6 +39,7 @@ const productsSlice = createSlice({
       .addCase(getProdByCategoryThunk.fulfilled, (state, { payload }) => {
         state.products = payload.products;
         state.categories = payload.categories;
+        state.searchValue = "";
       })
       .addCase(logOutThunk.fulfilled, () => initialState);
   },
@@ -41,11 +47,12 @@ const productsSlice = createSlice({
 
 export const productsReducer = productsSlice.reducer;
 
-export const { changeCurrentPage } = productsSlice.actions;
+export const { changeCurrentPage, changeSearchValue } = productsSlice.actions;
 
 export const {
   selectProducts,
   selectSaleProducts,
   selectCurrentPage,
   selectCategories,
+  selectSearchValue,
 } = productsSlice.selectors;

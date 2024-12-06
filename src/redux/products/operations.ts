@@ -9,7 +9,7 @@ import { RootState } from "../store";
 
 export const getProductsThunk = createAsyncThunk(
   "products/getProducts",
-  async (page: number, thunkApi) => {
+  async ({ page, value }: { page: number; value: string }, thunkApi) => {
     const state = thunkApi.getState() as RootState;
     const token = state.auth.token;
 
@@ -19,7 +19,7 @@ export const getProductsThunk = createAsyncThunk(
 
     try {
       const { data } = await axios.get<ProductsData>(`/api/products`, {
-        params: { page },
+        params: { page, value },
         headers: {
           Authorization: `Bearer ${token}`,
         },

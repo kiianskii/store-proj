@@ -62,6 +62,7 @@ export interface ProductsState {
   categories: string[];
   sale: Product[];
   currentPage: number;
+  searchValue: string;
 }
 
 // Cart types
