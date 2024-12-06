@@ -9,7 +9,7 @@ import {
 } from "../../helpers/customTypes";
 import { RootState } from "../store";
 
-axios.defaults.baseURL = "http://localhost:3000/";
+axios.defaults.baseURL = "https://store-proj-back.onrender.com/";
 
 export const registerThunk = createAsyncThunk(
   "auth/register",
