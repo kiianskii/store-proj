@@ -1,5 +1,10 @@
 import { createSlice, isAnyOf } from "@reduxjs/toolkit";
-import { logInThunk, logOutThunk, registerThunk } from "../auth/operations";
+import {
+  logInThunk,
+  logOutThunk,
+  refreshThunk,
+  registerThunk,
+} from "../auth/operations";
 import {
   addToCartThunk,
   clearCartThunk,
@@ -24,6 +29,7 @@ const loaderSlice = createSlice({
       .addMatcher(
         isAnyOf(
           logInThunk.pending,
+          refreshThunk.pending,
           logOutThunk.pending,
           registerThunk.pending,
           addToCartThunk.pending,
@@ -39,6 +45,7 @@ const loaderSlice = createSlice({
       .addMatcher(
         isAnyOf(
           logInThunk.fulfilled,
+          refreshThunk.fulfilled,
           logOutThunk.fulfilled,
           registerThunk.fulfilled,
           addToCartThunk.fulfilled,
@@ -54,6 +61,7 @@ const loaderSlice = createSlice({
       .addMatcher(
         isAnyOf(
           logInThunk.rejected,
+          refreshThunk.rejected,
           logOutThunk.rejected,
           registerThunk.rejected,
           addToCartThunk.rejected,

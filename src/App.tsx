@@ -1,57 +1,20 @@
-import { Suspense, useEffect } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, { Suspense } from "react";
+import { Route, Routes } from "react-router-dom";
+
 import { Toaster } from "react-hot-toast";
 
-import HomePage from "./pages/HomePage/HomePage";
-import CatalogPage from "./pages/CatalogPage/CatalogPage";
-import AuthPage from "./pages/AuthPage/AuthPage";
-import CartPage from "./pages/CartPage/CartPage";
-
-import Layout from "./components/Layout/Layout";
-import Loader from "./components/Loader/Loader";
 import { PrivateRoute } from "./routes/PrivateRoute";
 import { RestrictedRoute } from "./routes/RestrictedRoute";
+import Loader from "./components/Loader/Loader";
+import Layout from "./components/Layout/Layout";
 
-import { AppDispatch } from "./redux/store";
-import { getProductsThunk } from "./redux/products/operations";
-import { selectIsLoggedIn, selectIsRefreshing } from "./redux/auth/slice";
-import { selectCurrentPage, selectSearchValue } from "./redux/products/slice";
 import "./App.css";
-import { refreshThunk } from "./redux/auth/operations";
+const HomePage = React.lazy(() => import("./pages/HomePage/HomePage"));
+const AuthPage = React.lazy(() => import("./pages/AuthPage/AuthPage"));
+const CartPage = React.lazy(() => import("./pages/CartPage/CartPage"));
+const CatalogPage = React.lazy(() => import("./pages/CatalogPage/CatalogPage"));
 
 function App() {
-  const isLoggedIn = useSelector(selectIsLoggedIn);
-  const isRefreshing = useSelector(selectIsRefreshing);
-  const dispatch = useDispatch<AppDispatch>();
-  const currentPage = useSelector(selectCurrentPage);
-  const value = useSelector(selectSearchValue);
-
-  const location = useLocation();
-
-  useEffect(() => {
-    dispatch(refreshThunk());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (!isRefreshing && isLoggedIn) {
-      const isCatalogWithCategory = /^\/catalog\/[^/]+$/.test(
-        location.pathname
-      );
-
-      if (!isCatalogWithCategory) {
-        dispatch(getProductsThunk({ page: currentPage, value }));
-      }
-    }
-  }, [
-    isLoggedIn,
-    currentPage,
-    location.pathname,
-    value,
-    isRefreshing,
-    dispatch,
-  ]);
-
   return (
     <Suspense fallback={<Loader />}>
       <Routes>
